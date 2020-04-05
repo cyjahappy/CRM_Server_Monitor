@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -56,7 +56,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'Monitor.urls'
 
 SUIT_CONFIG = {
-    'ADMIN_NAME': u'CRM Server Monitor',
+    'ADMIN_NAME': 'CRM Server Monitor',
     'MENU': (
 
         # Keep original label and models

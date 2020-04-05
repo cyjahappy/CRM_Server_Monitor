@@ -223,9 +223,13 @@
       <th>内存监控</th>
     </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <!--显示内存报警阈值-->
+            <th id = "memory">内存的使用率阈值为: </th>
+        </tr>
+    </tfoot>
 
-    <!--显示内存阈值-->
-    <p id = "memory">内存使用率阈值为:  %</p>
 
     <!--更改内存阈值-->
     <div>
@@ -308,10 +312,12 @@
       <th>CPU监控</th>
     </tr>
     </thead>
-
-    <!--显示CPU阈值-->
-    <p id = "cpu">CPU阈值为:  %</p>
-
+    <tfoot>
+        <tr>
+            <!--显示CPU报警阈值-->
+            <th id = "cpu">CPU的使用率报警阈值为: </th>
+        </tr>
+    </tfoot>
     <!--更改CPU阈值-->
     <div>
     <label for="cpu_threshold" style="float:left">修改CPU阈值为:</label>
@@ -497,10 +503,12 @@
       <th>磁盘监控</th>
     </tr>
     </thead>
-
-    <!--显示CPU阈值-->
-    <p id = "disk">磁盘使用率阈值为:  %</p>
-
+    <tfoot>
+        <tr>
+            <!--显示磁盘报警阈值-->
+            <th id = "disk">磁盘的使用率报警阈值为: </th>
+        </tr>
+    </tfoot>
     <!--修改磁盘使用率阈值-->
     <div>
     <label for="disk_threshold" style="float:left">修改磁盘使用率阈值为:</label>
@@ -605,9 +613,9 @@
             success:function(json)
                 {
                      server_info_threshold = eval(json);
-                     document.getElementById("cpu").innerHTML = "CPU使用率阈值为: " + server_info_threshold.cpu_threshold + "%";
-                     document.getElementById("memory").innerHTML = "内存使用率阈值为: " + server_info_threshold.memory_threshold + "%";
-                     document.getElementById("disk").innerHTML = "磁盘使用率阈值为: " + server_info_threshold.disk_threshold + "%";
+                     document.getElementById("cpu").innerHTML = "CPU使用率报警阈值为: " + server_info_threshold.cpu_threshold + "%";
+                     document.getElementById("memory").innerHTML = "内存使用率报警阈值为: " + server_info_threshold.memory_threshold + "%";
+                     document.getElementById("disk").innerHTML = "磁盘使用率报警阈值为: " + server_info_threshold.disk_threshold + "%";
                 }
         });},1000);
 //调用修改服务器各项指标阈值api
