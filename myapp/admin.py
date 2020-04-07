@@ -2,5 +2,9 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+
+@admin.register(ServerInfoThreshold)
+class ServerInfoThresholdAdmin(admin.ModelAdmin):
+    list_display = ['server_name', 'cpu_threshold', 'memory_threshold', 'disk_threshold']

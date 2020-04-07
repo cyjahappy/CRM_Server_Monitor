@@ -229,23 +229,18 @@
             <th id = "memory">内存的使用率阈值为: </th>
         </tr>
         <tr>
-            <!--修改内存报警阈值-->
+            <!--修改内存报警阈值
             <th>
                 <label for="memory_threshold" style="float:left">修改内存使用率报警阈值为:</label>
                 <input id="memory_threshold" style="width: 20px">
                 <button type="button" onclick="modifyMemoryThreshold()">提交</button>
             </th>
+            -->
         </tr>
     </tfoot>
 
 
-    <!--旧的更改内存阈值
-    <div>
-    <label for="memory_threshold" style="float:left">修改内存阈值为:</label>
-    <input id="memory_threshold">
-    <button type="button" onclick="modifyMemoryThreshold()">提交</button>
-    </div>
-    -->
+
     <tbody>
     <tr>
         <td id="memory_echarts" style="height: 300px"></td>
@@ -327,21 +322,15 @@
             <th id = "cpu">CPU的使用率报警阈值为: </th>
         </tr>
         <tr>
-            <!--修改内存报警阈值-->
+            <!--修改CPU报警阈值
             <th>
                 <label for="cpu_threshold" style="float:left">修改CPU报警阈值为:</label>
                 <input id="cpu_threshold" style="width: 20px">
                 <button type="button" onclick="modifyCPUThreshold()">提交</button>
             </th>
+            -->
         </tr>
     </tfoot>
-    <!--更改CPU阈值
-    <div>
-    <label for="cpu_threshold" style="float:left">修改CPU阈值为:</label>
-    <input id="cpu_threshold">
-    <button type="button" onclick="modifyCPUThreshold()">提交</button>
-    </div>
-    -->
 
     <tbody>
     <tr>
@@ -527,12 +516,13 @@
             <th id = "disk">磁盘的使用率报警阈值为: </th>
         </tr>
         <tr>
-            <!--修改内存报警阈值-->
+            <!--修改磁盘报警阈值
             <th>
                 <label for="disk_threshold" style="float:left">修改磁盘使用率报警阈值为:</label>
                 <input id="disk_threshold" style="width: 20px">
                 <button type="button" onclick="modifyDiskThreshold()">提交</button>
             </th>
+            -->
         </tr>
     </tfoot>
     <!--修改磁盘使用率阈值
@@ -648,6 +638,7 @@
                 }
         });},1000);
 //调用修改服务器各项指标阈值api
+    /*
         aaa = setInterval(
             function () {
             $.ajax({
@@ -660,6 +651,8 @@
                 },
                 success:function(arg) {}
             });},1000);
+
+     */
 
 
 </script>

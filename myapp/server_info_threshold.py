@@ -1,3 +1,4 @@
+from .models import *
 # 服务器各项指标的阈值
 
 # CPU使用率

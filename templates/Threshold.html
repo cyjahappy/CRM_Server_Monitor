@@ -1,4 +1,82 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
+<style type="text/css">
+    table.gridtable {
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+    table.gridtable th {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #dedede;
+    }
+    table.gridtable td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #ffffff;
+    }
+    </style>
+
+    <!-- Table goes in the document BODY -->
+    <table class="gridtable">
+    <tr>
+        <th>服务器指标</th><th>报警阈值</th>
+    </tr>
+    <tr>
+        <td>CPU使用率</td><td><input id="cpu_threshold"></td>
+    </tr>
+    <tr>
+        <td>内存使用率</td><td><input id="memory_threshold"></td>
+    </tr>
+    <tr>
+        <td>磁盘使用率</td><td><input id="disk_threshold"></td>
+    </tr>
+    </table>
+    <button type="button" onclick="modifyThreshold()">修改</button>
+
+    <script>
+    //调用api获取服务器各项指标阈值,并填入输入框中显示
+    $.ajax({
+    type:'GET',
+    url:'/admin/server-info-threshold-api',
+    dataType:'json',
+    success:function(json)
+        {
+             server_info_threshold = eval(json);
+             document.getElementById("cpu_threshold").value = server_info_threshold.cpu_threshold;
+             document.getElementById("memory_threshold").value = server_info_threshold.memory_threshold;
+             document.getElementById("disk_threshold").value = server_info_threshold.disk_threshold;
+        }
+    });
+    //调用api修改服务器各项指标阈值
+    function modifyThresholdAPI(cpudigi, memorydigi, diskdigi) {
+        $.ajax({
+                type:'POST',
+                url:'/admin/modify-threshold-api',
+                data: {
+                    'cpu' : cpudigi,
+                    'memory': memorydigi,
+                    'disk': diskdigi
+                },
+                success:function(arg) {}
+            });
+    }
+    //从输入框中获取数值并调用modifyThresholdAPI()
+    function modifyThreshold() {
+        let cpu_threshold = document.getElementById("cpu_threshold").value;
+        let memory_threshold = document.getElementById("memory_threshold").value;
+        let disk_threshold = document.getElementById("disk_threshold").value;
+        modifyThresholdAPI(cpu_threshold, memory_threshold, disk_threshold);
+    }
+    </script>
+
 {% endblock %}
