@@ -226,16 +226,7 @@
     <tfoot>
         <tr>
             <!--显示内存报警阈值-->
-            <th id = "memory">内存的使用率阈值为: </th>
-        </tr>
-        <tr>
-            <!--修改内存报警阈值
-            <th>
-                <label for="memory_threshold" style="float:left">修改内存使用率报警阈值为:</label>
-                <input id="memory_threshold" style="width: 20px">
-                <button type="button" onclick="modifyMemoryThreshold()">提交</button>
-            </th>
-            -->
+            <th id = "memory">内存使用率报警阈值为: </th>
         </tr>
     </tfoot>
 
@@ -319,16 +310,7 @@
     <tfoot>
         <tr>
             <!--显示CPU报警阈值-->
-            <th id = "cpu">CPU的使用率报警阈值为: </th>
-        </tr>
-        <tr>
-            <!--修改CPU报警阈值
-            <th>
-                <label for="cpu_threshold" style="float:left">修改CPU报警阈值为:</label>
-                <input id="cpu_threshold" style="width: 20px">
-                <button type="button" onclick="modifyCPUThreshold()">提交</button>
-            </th>
-            -->
+            <th id = "cpu">CPU使用率报警阈值为: </th>
         </tr>
     </tfoot>
 
@@ -513,16 +495,7 @@
     <tfoot>
         <tr>
             <!--显示磁盘报警阈值-->
-            <th id = "disk">磁盘的使用率报警阈值为: </th>
-        </tr>
-        <tr>
-            <!--修改磁盘报警阈值
-            <th>
-                <label for="disk_threshold" style="float:left">修改磁盘使用率报警阈值为:</label>
-                <input id="disk_threshold" style="width: 20px">
-                <button type="button" onclick="modifyDiskThreshold()">提交</button>
-            </th>
-            -->
+            <th id = "disk">磁盘使用率报警阈值为: </th>
         </tr>
     </tfoot>
     <!--修改磁盘使用率阈值
@@ -637,24 +610,6 @@
                      document.getElementById("disk").innerHTML = "磁盘使用率报警阈值为: " + server_info_threshold.disk_threshold + "%";
                 }
         });},1000);
-//调用修改服务器各项指标阈值api
-    /*
-        aaa = setInterval(
-            function () {
-            $.ajax({
-                type:'POST',
-                url:'/admin/modify-threshold-api',
-                data: {
-                    'cpu' : cpudigi,
-                    'memory': memorydigi,
-                    'disk': diskdigi
-                },
-                success:function(arg) {}
-            });},1000);
-
-     */
-
-
 </script>
 
 {% endblock %}

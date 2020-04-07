@@ -36,11 +36,10 @@ def server_info_threshold_api(request):
 def modify_threshold_api(request):
     try:
         set_cpu_threshold(request.POST.get('cpu'))
-        print('CPU threshold = ', get_server_info_threshold('cpu_threshold'))
         set_memory_threshold(request.POST.get('memory'))
-        print('Memory threshold = ', get_server_info_threshold('memory_threshold'))
         set_disk_threshold(request.POST.get('disk'))
-        print('Disk threshold = ', get_server_info_threshold('disk_threshold'))
+        # 每次向数据库中更新数据后, 调用refresh_data()使WEB端重新向数据库中获取一次数据
+        refresh_data()
     except Exception as e:
         print(e)
     return HttpResponse('')
