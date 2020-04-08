@@ -23,6 +23,7 @@ def get_server_info_threshold(info=None):
         return server_info_threshold
 
 
+# 更新数据库中各项服务器报警阈值
 def set_cpu_threshold(threshold):
     ServerInfoThreshold.objects.filter(id=1).update(cpu_threshold=threshold)
 
@@ -35,6 +36,7 @@ def set_disk_threshold(threshold):
     ServerInfoThreshold.objects.filter(id=1).update(disk_threshold=threshold)
 
 
+# 每次更新数据库中的数据后会调用该函数来用数据库中的值来刷新全局变量中的数值
 def refresh_data():
     global cpu_threshold
     global memory_threshold
