@@ -5,7 +5,7 @@ import time
 
 #  网络的单位有问题
 
-
+# 使用psutil库来获取系统的各项指标
 def get_server_info():
     cpu = psutil.cpu_percent(interval=1)  # CPU使用率
     memory = float(psutil.virtual_memory().used) / float(psutil.virtual_memory().total) * 100.0  # 内存使用率
@@ -23,9 +23,9 @@ def get_server_info():
     network = network_sent + network_recv - last_network  # 得到这一秒服务器网络上传和下载的总和 单位MB
     server_info = {'cpu': cpu,
                    'memory': memory,
+                   'disk': disk,
                    'network': network,
                    'network_recv': network_recv,
-                   'network_sent': network_sent,
-                   'disk': disk
+                   'network_sent': network_sent
                    }
     return server_info

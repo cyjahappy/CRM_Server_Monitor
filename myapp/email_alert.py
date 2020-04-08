@@ -15,6 +15,7 @@ def email_alert():
         time_stamp = time.time()
     else:
         time_stamp_now = time.time()
+        # 上一次发送了邮件之后, 隔600秒才能发送下一次邮件
         if (time_stamp_now - time_stamp) >= 600:
             time_stamp = time_stamp_now
             try:

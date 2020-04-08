@@ -208,7 +208,7 @@
         cpu_memory_disk_network_echarts_option.series[2].data[0].value = (server_info.network).toFixed(2) - 0;
         cpu_memory_disk_network_echarts_option.series[3].data[0].value = (server_info.disk).toFixed(2) - 0;
         cpu_memory_disk_network_echarts.setOption(cpu_memory_disk_network_echarts_option, true);
-    }, 1000);
+    }, 5000);
     </script>
     </tr>
     </tbody>
@@ -292,7 +292,7 @@
                         data: memory_data
                     }]
                 });
-            }, 1000);
+            }, 5000);
         </script>
     </tr>
     </tbody>
@@ -374,7 +374,7 @@
                         data: cpu_data
                     }]
                 });
-            }, 1000);
+            }, 5000);
         </script>
     </tr>
     </tbody>
@@ -477,7 +477,7 @@
 
                     ]
                 });
-            }, 1000);
+            }, 5000);
          </script>
     </tr>
     </tbody>
@@ -498,13 +498,6 @@
             <th id = "disk">磁盘使用率报警阈值为: </th>
         </tr>
     </tfoot>
-    <!--修改磁盘使用率阈值
-    <div>
-    <label for="disk_threshold" style="float:left">修改磁盘使用率阈值为:</label>
-    <input id="disk_threshold">
-    <button type="button" onclick="modifyDiskThreshold()">提交</button>
-    </div>
-    -->
 
     <tbody>
     <tr>
@@ -566,35 +559,16 @@
                         data: disk_data
                     } ]
                 });
-            }, 1000);
+            }, 5000);
         </script>
     </tr>
     </tbody>
   </table>
 </div>
 
-
 <script>
     var server_info_threshold;
-    var cpudigi = 99
-    var memorydigi = 99
-    var diskdigi = 99
 
-//修改CPU使用率阈值函数
-    function modifyCPUThreshold(){
-        cpudigi = document.getElementById("cpu_threshold").value;
-        document.getElementById("cpu_threshold").value = "";
-    }
-//修改内存使用率阈值函数
-    function modifyDiskThreshold(){
-        diskdigi = document.getElementById("disk_threshold").value;
-        document.getElementById("disk_threshold").value = "";
-    }
-//修改内存使用率阈值函数
-    function modifyMemoryThreshold(){
-        memorydigi = document.getElementById("memory_threshold").value;
-        document.getElementById("memory_threshold").value = "";
-    }
 //调用获取服务器各项指标阈值api
         ddd = setInterval(
         function () {
@@ -609,7 +583,7 @@
                      document.getElementById("memory").innerHTML = "内存使用率报警阈值为: " + server_info_threshold.memory_threshold + "%";
                      document.getElementById("disk").innerHTML = "磁盘使用率报警阈值为: " + server_info_threshold.disk_threshold + "%";
                 }
-        });},1000);
+        });},5000);
 </script>
 
 {% endblock %}

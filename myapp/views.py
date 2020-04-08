@@ -8,31 +8,42 @@ from .psutil_get_server_info import get_server_info
 from .server_info_threshold import *
 from .email_alert import *
 
+# 引入Django_Apscheduler库
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+
+# 定义全局变量存储服务器各项指标
 server_info = dict()
 server_info_threshold = dict()
 
+# 实例化调度器
+scheduler = BackgroundScheduler()
+# 调度器使用默认的DjangoJobStore()
+scheduler.add_jobstore(DjangoJobStore(), 'default')
 
+
+# 定义用于获取系统各项指标的API
 def server_info_api(request):
     try:
+        # 获取全局变量中赋值的变量
         global server_info
-        server_info = get_server_info()
-        if server_info['cpu'] >= server_info_threshold['cpu_threshold']:
-            email_alert()
     except Exception as e:
         print(e)
     return HttpResponse(json.dumps(server_info))
 
 
+# 定义用于获取系统各项指标阈值的API
 def server_info_threshold_api(request):
     try:
+        # 获取全局变量中赋值的变量
         global server_info_threshold
-        server_info_threshold = get_server_info_threshold()
     except Exception as e:
         print(e)
     else:
         return HttpResponse(json.dumps(server_info_threshold))
 
 
+# 定义用于修改系统各项指标报警阈值的API
 def modify_threshold_api(request):
     try:
         set_cpu_threshold(request.POST.get('cpu'))
@@ -43,6 +54,27 @@ def modify_threshold_api(request):
     except Exception as e:
         print(e)
     return HttpResponse('')
+
+
+# 定时调用api获取服务器各项指标
+@register_job(scheduler, 'interval', id='scheduled_get_server_info', seconds=5)
+def scheduled_get_server_info():
+    # 对全局变量赋值
+    global server_info
+    global server_info_threshold
+    server_info = get_server_info()
+    server_info_threshold = get_server_info_threshold()
+    # 检测是否超过阈值
+    if (server_info['cpu'] >= server_info_threshold['cpu_threshold']) or (
+            server_info['memory'] >= server_info_threshold['memory_threshold']) or (
+            server_info['disk'] >= server_info_threshold['disk_threshold']):
+        email_alert()
+    return
+
+
+# 注册定时任务并开始
+register_events(scheduler)
+scheduler.start()
 
 
 @staff_member_required
