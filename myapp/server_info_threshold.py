@@ -1,12 +1,12 @@
 from .models import *
 
-# 从数据库中获取CPU使用率
+# 从数据库中获取CPU使用率阈值
 cpu_threshold = ServerInfoThreshold.objects.get(id=1).cpu_threshold
 
-# 从数据库中获取内存使用率
+# 从数据库中获取内存使用率阈值
 memory_threshold = ServerInfoThreshold.objects.get(id=1).memory_threshold
 
-# 从数据库中获取磁盘使用率
+# 从数据库中获取磁盘使用率阈值
 disk_threshold = ServerInfoThreshold.objects.get(id=1).disk_threshold
 
 

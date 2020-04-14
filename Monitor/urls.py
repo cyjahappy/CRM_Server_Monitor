@@ -11,12 +11,12 @@ urlpatterns = [
     # 服务器阈值修改页面
     path('admin/modify-threshold', modify_threshold, name='modify_threshold'),
 
-    # 服务器负载信息api
+    # 获取服务器负载信息API
     path('admin/server-info-api', server_info_api, name='server_info_api'),
 
-    # 获取服务器负载阈值api
+    # 获取服务器负载阈值API
     path('admin/server-info-threshold-api', server_info_threshold_api, name='server_info_threshold_api'),
 
-    # 更改阈值api
+    # 更改阈值API
     path('admin/modify-threshold-api', modify_threshold_api, name='modify_threshold_api')
 ]

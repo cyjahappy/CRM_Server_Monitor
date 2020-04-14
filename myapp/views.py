@@ -16,13 +16,19 @@ from django_apscheduler.jobstores import DjangoJobStore, register_events, regist
 server_info = dict()
 server_info_threshold = dict()
 
-# 实例化调度器
-scheduler = BackgroundScheduler()
-# 调度器使用默认的DjangoJobStore()
-scheduler.add_jobstore(DjangoJobStore(), 'default')
+# 实例化调度器(定时获取获取系统各项指标)
+scheduler1 = BackgroundScheduler()
+# 调度器(定时获取获取系统各项指标)使用默认的DjangoJobStore()
+scheduler1.add_jobstore(DjangoJobStore(), 'default')
+'''
+# 实例化调度器(定时Ping指定的服务器)
+scheduler2 = BackgroundScheduler()
+# 调度器(定时Ping指定的服务器)使用默认的DjangoJobStore()
+scheduler2.add_jobstore(DjangoJobStore(), 'default')
+'''
 
 
-# 定义用于获取系统各项指标的API
+# 定义前端用于获取系统各项指标的API
 def server_info_api(request):
     try:
         # 获取全局变量中赋值的变量
@@ -32,7 +38,7 @@ def server_info_api(request):
     return HttpResponse(json.dumps(server_info))
 
 
-# 定义用于获取系统各项指标阈值的API
+# 定义前端用于获取系统各项指标阈值的API
 def server_info_threshold_api(request):
     try:
         # 获取全局变量中赋值的变量
@@ -43,7 +49,7 @@ def server_info_threshold_api(request):
         return HttpResponse(json.dumps(server_info_threshold))
 
 
-# 定义用于修改系统各项指标报警阈值的API
+# 定义前端用于修改系统各项指标报警阈值的API
 def modify_threshold_api(request):
     try:
         set_cpu_threshold(request.POST.get('cpu'))
@@ -56,8 +62,8 @@ def modify_threshold_api(request):
     return HttpResponse('')
 
 
-# 定时调用api获取服务器各项指标
-@register_job(scheduler, 'interval', id='scheduled_get_server_info', seconds=5)
+# 后端定时获取服务器各项指标(每5秒)
+@register_job(scheduler1, 'interval', id='scheduled_get_server_info', seconds=5)
 def scheduled_get_server_info():
     # 对全局变量赋值
     global server_info
@@ -72,9 +78,16 @@ def scheduled_get_server_info():
     return
 
 
+'''
+# 定时获取PING值(每30秒)
+@register_job(scheduler2, 'interval', id='scheduled_get_ping_info', seconds=30)
+def scheduled_get_ping_info():
+    pass
+'''
+
 # 注册定时任务并开始
-register_events(scheduler)
-scheduler.start()
+register_events(scheduler1)
+scheduler1.start()
 
 
 @staff_member_required
