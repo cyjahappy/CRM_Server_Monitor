@@ -12,5 +12,15 @@ class ServerInfoThreshold(models.Model):
     disk_threshold = models.FloatField(default=99.0)
 
 
+class ServerInfo(models.Model):
+    date = models.DateTimeField(primary_key=True, auto_now=True)
+    cpu = models.FloatField(null=True)
+    memory = models.FloatField(null=True)
+    disk = models.FloatField(null=True)
+    network = models.FloatField(null=True)
+    network_recv = models.FloatField(null=True)
+    network_sent = models.FloatField(null=True)
+
+
 class Meta:
     verbose_name = '服务器报警阈值'

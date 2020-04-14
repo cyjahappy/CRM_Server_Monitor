@@ -4,7 +4,7 @@ import json
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render
 from django.http import HttpResponse
-from .psutil_get_server_info import get_server_info
+from .psutil_get_server_info import get_server_info, server_info_to_database
 from .server_info_threshold import *
 from .email_alert import *
 
@@ -72,6 +72,10 @@ def scheduled_get_server_info():
     global server_info_threshold
     server_info = get_server_info()
     server_info_threshold = get_server_info_threshold()
+
+    # 调用函数将服务器各项指标的值存入数据库
+    server_info_to_database(server_info)
+
     # 检测是否超过阈值
     if (server_info['cpu'] >= server_info_threshold['cpu_threshold']) or (
             server_info['memory'] >= server_info_threshold['memory_threshold']) or (
