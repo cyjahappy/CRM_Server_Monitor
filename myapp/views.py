@@ -33,6 +33,7 @@ def server_info_api(request):
     try:
         # 获取全局变量中赋值的变量
         global server_info
+        server_info = get_server_info()
     except Exception as e:
         print(e)
     return HttpResponse(json.dumps(server_info))
@@ -43,6 +44,7 @@ def server_info_threshold_api(request):
     try:
         # 获取全局变量中赋值的变量
         global server_info_threshold
+        server_info_threshold = get_server_info_threshold()
     except Exception as e:
         print(e)
     else:
@@ -62,8 +64,8 @@ def modify_threshold_api(request):
     return HttpResponse('')
 
 
-# 后端定时获取服务器各项指标(每5秒)
-@register_job(scheduler1, 'interval', id='scheduled_get_server_info', seconds=5)
+# 后端定时获取服务器各项指标(每分钟)
+@register_job(scheduler1, 'interval', id='scheduled_get_server_info', minutes=1)
 def scheduled_get_server_info():
     # 对全局变量赋值
     global server_info
