@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from .psutil_get_server_info import get_server_info, server_info_to_database
 from .server_info_threshold import *
 from .email_alert import *
+from .clean_database import clean_database
 
 # 引入Django_Apscheduler库
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -20,12 +21,11 @@ server_info_threshold = dict()
 scheduler1 = BackgroundScheduler()
 # 调度器(定时获取获取系统各项指标)使用默认的DjangoJobStore()
 scheduler1.add_jobstore(DjangoJobStore(), 'default')
-'''
-# 实例化调度器(定时Ping指定的服务器)
+
+# 实例化调度器(定时清理数据库过期数据)
 scheduler2 = BackgroundScheduler()
-# 调度器(定时Ping指定的服务器)使用默认的DjangoJobStore()
+# 调度器(定时清理数据库过期数据)使用默认的DjangoJobStore()
 scheduler2.add_jobstore(DjangoJobStore(), 'default')
-'''
 
 
 # 定义前端用于获取系统各项指标的API
@@ -84,16 +84,17 @@ def scheduled_get_server_info():
     return
 
 
-'''
-# 定时获取PING值(每30秒)
-@register_job(scheduler2, 'interval', id='scheduled_get_ping_info', seconds=30)
-def scheduled_get_ping_info():
-    pass
-'''
+# 每天3:30的时候自动清除数据库中2天以前当天的所有数据
+@register_job(scheduler2, 'cron', id='scheduled_clean_database', hour=3, minute=30)
+def scheduled_clean_database():
+    clean_database()
+
 
 # 注册定时任务并开始
 register_events(scheduler1)
+register_events(scheduler2)
 scheduler1.start()
+scheduler2.start()
 
 
 @staff_member_required

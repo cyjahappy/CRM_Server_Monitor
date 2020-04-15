@@ -2,8 +2,8 @@
 from datetime import datetime, timedelta
 from .models import ServerInfo
 
-# 自动清理数据库中今日日期-1天的那天当天的所有数据
-number_of_days = 1
+# 自动清理数据库中今日日期-2天的那天当天的所有数据
+number_of_days = 2
 
 
 def clean_database():
@@ -20,12 +20,13 @@ def clean_database():
     date_to_clean_month = (date_to_clean.strftime('%m'))
     date_to_clean_day = (date_to_clean.strftime('%d'))
 
-    # 获取当天数据的实例
+    # 获取当天数据的QuerySet
     data = ServerInfo.objects.filter(date__year=date_to_clean_year,
                                      date__month=date_to_clean_month,
                                      date__day=date_to_clean_day)
 
-    # 删除数据
-    data.delete()
+    # 如果QuerySet不为空, 则删除QuerySet对应的数据
+    if data.exists():
+        data.delete()
 
-    pass
+    return
