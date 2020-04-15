@@ -321,6 +321,19 @@
             var cpu_echarts = echarts.init(document.getElementById('cpu_echarts'), 'shine')
             var cpu_date = [];
             var cpu_data = [];
+            var server_info_minutes = [];
+
+            $.ajax({
+            type:'GET',
+            url:'/admin/server-info-minutes-api',
+            dataType:'json',
+            success:function(json)
+                {
+                    server_info_minutes = eval(json);
+                    cpu_data = server_info_minutes.cpu;
+                    cpu_date = server_info_minutes.date;
+                }
+            });
 
             cpu_echarts_option = {
                 toolbox: {
@@ -362,8 +375,9 @@
 
             };
             cpu_echarts.setOption(cpu_echarts_option, true);
+
             timeTicket = setInterval(function () {
-                cpu_date.push(new Date().toLocaleTimeString() );
+                cpu_date.push(getCurrentTime());
                 cpu_data.push(server_info.cpu);
                 cpu_echarts.setOption({
                     xAxis: {
@@ -374,7 +388,7 @@
                         data: cpu_data
                     }]
                 });
-            }, 5000);
+            }, 60000);
         </script>
     </tr>
     </tbody>
@@ -584,6 +598,25 @@
                      document.getElementById("disk").innerHTML = "磁盘使用率报警阈值为: " + server_info_threshold.disk_threshold + "%";
                 }
         });},5000);
+//返回格式化的时间(HH:MM)
+        function getCurrentTime(){
+		var dtCur = new Date();
+		var hCur = dtCur.getHours();
+		var mCur = dtCur.getMinutes();
+		timeCur = (hCur < 10 ? "0" + hCur : hCur) + ":" + (mCur < 10 ? "0" + mCur : mCur);
+		return timeCur;
+	}
+//返回格式化的时间(HH:MM:SS)
+        function getCurrentTime_seconds(){
+		var dtCur = new Date();
+		var hCur = dtCur.getHours();
+		var mCur = dtCur.getMinutes();
+		var sCur = dtCur.getSeconds();
+		timeCur = (hCur < 10 ? "0" + hCur : hCur) + ":" + (mCur < 10 ? "0" + mCur : mCur) + ":" + (sCur < 10 ? "0" + sCur : sCur);
+		return timeCur;
+	}
+
+
 </script>
 
 {% endblock %}

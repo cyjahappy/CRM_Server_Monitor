@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+# 使用psutil库来获取系统的各项指标
 import psutil
 import time
 from .models import ServerInfo
 
 
-# 使用psutil库来获取系统的各项指标
 def get_server_info():
     # CPU使用率(%)
     cpu = psutil.cpu_percent(interval=1)

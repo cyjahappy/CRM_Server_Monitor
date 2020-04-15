@@ -8,6 +8,7 @@ from .psutil_get_server_info import get_server_info, server_info_to_database
 from .server_info_threshold import *
 from .email_alert import *
 from .clean_database import clean_database
+from .database_get_server_info import display_data_minutes
 
 # 引入Django_Apscheduler库
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -16,6 +17,7 @@ from django_apscheduler.jobstores import DjangoJobStore, register_events, regist
 # 定义全局变量存储服务器各项指标
 server_info = dict()
 server_info_threshold = dict()
+server_info_minutes = dict()
 
 # 实例化调度器(定时获取获取系统各项指标)
 scheduler1 = BackgroundScheduler()
@@ -28,7 +30,7 @@ scheduler2 = BackgroundScheduler()
 scheduler2.add_jobstore(DjangoJobStore(), 'default')
 
 
-# 定义前端用于获取系统各项指标的API
+# 定义前端用于实时获取系统各项指标的API
 def server_info_api(request):
     try:
         # 获取全局变量中赋值的变量
@@ -39,7 +41,14 @@ def server_info_api(request):
     return HttpResponse(json.dumps(server_info))
 
 
-# 定义前端用于获取系统各项指标阈值的API
+# 定义前端用于以分钟为单位从数据库获取系统各项指标的API
+def server_info_minutes_api(request):
+    global server_info_minutes
+    server_info_minutes = display_data_minutes()
+    return HttpResponse(json.dumps(server_info_minutes))
+
+
+# 定义前端用于实时获取系统各项指标阈值的API
 def server_info_threshold_api(request):
     try:
         # 获取全局变量中赋值的变量
