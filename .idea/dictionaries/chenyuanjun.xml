@@ -4,6 +4,7 @@
       <w>apscheduler</w>
       <w>jobstore</w>
       <w>psutil</w>
+      <w>smtp</w>
     </words>
   </dictionary>
 </component>
