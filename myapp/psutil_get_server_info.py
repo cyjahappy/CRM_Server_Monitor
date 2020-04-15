@@ -16,7 +16,7 @@ def get_server_info():
     memory_used = round((psutil.virtual_memory().used / 1073741824), 2)
 
     # 内存使用率(%)
-    memory = round((memory_used / memory_total), 2) * 100
+    memory = round((memory_used / memory_total) * 100, 2)
 
     # 磁盘使用率(%)(需要使用"df -h"命令 to list all mounted disk partitions, 然后选择对的那个来获取磁盘使用率)
     disk = psutil.disk_usage("/System/Volumes/Data").percent

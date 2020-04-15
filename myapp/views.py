@@ -84,7 +84,7 @@ def scheduled_get_server_info():
     return
 
 
-# 每天3:30的时候自动清除数据库中2天以前当天的所有数据
+# 每天凌晨3:30的时候自动清除数据库中2天以前当天的所有数据
 @register_job(scheduler2, 'cron', id='scheduled_clean_database', hour=3, minute=30)
 def scheduled_clean_database():
     clean_database()
