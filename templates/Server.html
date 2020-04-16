@@ -4,7 +4,7 @@
         <!-- ECharts -->
     <script src="/static/js/echarts.min.js"></script>
     <script src="/static/js/shine.js"></script>
-
+    <script src="../myapp/static/js/jquery.js"></script>
 
     <!--最顶端三个仪表盘-->
 <div id="content" class="colM row-fluid">
@@ -372,10 +372,8 @@
                     }
                 ],
                 color:['#005eaa'],
-
             };
-            cpu_echarts.setOption(cpu_echarts_option, true);
-
+            cpu_echarts.setOption(cpu_echarts_option);
             timeTicket = setInterval(function () {
                 cpu_date.push(getCurrentTime());
                 cpu_data.push(server_info.cpu);
@@ -473,6 +471,7 @@
 
             };
             network_echarts.setOption(network_echarts_option, true);
+
             timeTicket = setInterval(function () {
                 network_date.push(new Date().toLocaleTimeString() );
                 network_recv.push(server_info.network_recv);
@@ -580,6 +579,10 @@
   </table>
 </div>
 
+
+
+
+<!--额外的函数-->
 <script>
     var server_info_threshold;
 

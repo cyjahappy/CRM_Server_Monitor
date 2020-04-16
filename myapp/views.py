@@ -73,6 +73,17 @@ def modify_threshold_api(request):
     return HttpResponse('')
 
 
+# Dashboard的页面
+def dashboard(request):
+    global server_info_minutes
+    server_info_minutes = display_data_minutes()
+    data = {
+        'cpu_data': server_info_minutes['cpu'],
+        'cpu_date': server_info_minutes['date']
+    }
+    return render(request, 'Dashboard.html', locals())
+
+
 # 后端定时获取服务器各项指标(每分钟)
 @register_job(scheduler1, 'interval', id='scheduled_get_server_info', minutes=1)
 def scheduled_get_server_info():

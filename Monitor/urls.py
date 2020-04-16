@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib import admin
-from myapp.views import server_info_api, server, server_info_threshold_api, modify_threshold_api, modify_threshold, server_info_minutes_api
+from myapp.views import server_info_api, server, server_info_threshold_api, modify_threshold_api, modify_threshold, server_info_minutes_api, dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -21,5 +21,8 @@ urlpatterns = [
     path('admin/modify-threshold-api', modify_threshold_api, name='modify_threshold_api'),
 
     # 以分钟为单位从数据库获取服务器负载信息API
-    path('admin/server-info-minutes-api', server_info_minutes_api, name='server_info_minutes_api')
+    path('admin/server-info-minutes-api', server_info_minutes_api, name='server_info_minutes_api'),
+
+    # Dashboard
+    path('dashboard', dashboard, name='dashboard')
 ]

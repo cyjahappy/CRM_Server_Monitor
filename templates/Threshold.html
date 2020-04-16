@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
+<!--CSS-->
 <style type="text/css">
     table.gridtable {
         font-family: verdana,arial,sans-serif;
@@ -26,7 +27,7 @@
     }
     </style>
 
-    <!-- Table goes in the document BODY -->
+    <!-- 调整阈值的表格 -->
     <table class="gridtable">
     <tr>
         <th>服务器指标</th><th>报警阈值</th>
@@ -43,6 +44,8 @@
     </table>
     <button type="button" onclick="modifyThreshold()">修改</button>
 
+
+    <!--关于表格的函数-->
     <script>
     //调用api获取服务器各项指标阈值,并填入输入框中显示
     $.ajax({
