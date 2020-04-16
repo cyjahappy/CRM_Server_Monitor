@@ -84,6 +84,11 @@ def dashboard(request):
     return render(request, 'Dashboard.html', locals())
 
 
+# 测试Bootstrap
+def testBootstrap(request):
+    return render(request, 'test.html')
+
+
 # 后端定时获取服务器各项指标(每分钟)
 @register_job(scheduler1, 'interval', id='scheduled_get_server_info', minutes=1)
 def scheduled_get_server_info():

@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib import admin
-from myapp.views import server_info_api, server, server_info_threshold_api, modify_threshold_api, modify_threshold, server_info_minutes_api, dashboard
+from myapp.views import server_info_api, server, server_info_threshold_api, modify_threshold_api, modify_threshold, server_info_minutes_api, dashboard, testBootstrap
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +24,8 @@ urlpatterns = [
     path('admin/server-info-minutes-api', server_info_minutes_api, name='server_info_minutes_api'),
 
     # Dashboard
-    path('dashboard', dashboard, name='dashboard')
+    path('dashboard', dashboard, name='dashboard'),
+
+    # test
+    path('test', testBootstrap)
 ]
