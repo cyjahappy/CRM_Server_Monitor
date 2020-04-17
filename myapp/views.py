@@ -14,11 +14,6 @@ from .database_get_server_info import display_data_minutes
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 
-# 定义全局变量存储服务器各项指标
-server_info = dict()
-server_info_threshold = dict()
-server_info_minutes = dict()
-
 # 实例化调度器(定时获取获取系统各项指标)
 scheduler1 = BackgroundScheduler()
 # 调度器(定时获取获取系统各项指标)使用默认的DjangoJobStore()
@@ -33,8 +28,6 @@ scheduler2.add_jobstore(DjangoJobStore(), 'default')
 # 定义前端用于实时获取系统各项指标的API
 def server_info_api(request):
     try:
-        # 获取全局变量中赋值的变量
-        global server_info
         server_info = get_server_info()
     except Exception as e:
         print(e)
@@ -43,7 +36,6 @@ def server_info_api(request):
 
 # 定义前端用于以分钟为单位从数据库获取系统各项指标的API
 def server_info_minutes_api(request):
-    global server_info_minutes
     server_info_minutes = display_data_minutes()
     return HttpResponse(json.dumps(server_info_minutes))
 
@@ -51,8 +43,6 @@ def server_info_minutes_api(request):
 # 定义前端用于实时获取系统各项指标阈值的API
 def server_info_threshold_api(request):
     try:
-        # 获取全局变量中赋值的变量
-        global server_info_threshold
         server_info_threshold = get_server_info_threshold()
     except Exception as e:
         print(e)
@@ -75,11 +65,13 @@ def modify_threshold_api(request):
 
 # Dashboard的页面
 def dashboard(request):
-    global server_info_minutes
     server_info_minutes = display_data_minutes()
     data = {
         'cpu_data': server_info_minutes['cpu'],
-        'cpu_date': server_info_minutes['date']
+        'memory_data': server_info_minutes['memory'],
+        'disk_data': server_info_minutes['disk'],
+        'network_data': server_info_minutes['network'],
+        'date': server_info_minutes['date']
     }
     return render(request, 'Dashboard.html', locals())
 
@@ -92,9 +84,6 @@ def testBootstrap(request):
 # 后端定时获取服务器各项指标(每分钟)
 @register_job(scheduler1, 'interval', id='scheduled_get_server_info', minutes=1)
 def scheduled_get_server_info():
-    # 对全局变量赋值
-    global server_info
-    global server_info_threshold
     server_info = get_server_info()
     server_info_threshold = get_server_info_threshold()
 

@@ -14,7 +14,7 @@
 </head>
 <body>
 <!--导航栏-->
-<nav class="navbar navbar-expand-md navbar-light">
+<nav class="navbar navbar-expand-md navbar-light bg-light">
 
   <!-- 大标题 -->
   <a class="navbar-brand" href="#">CRM Server Monitor</a>
@@ -41,7 +41,7 @@
 </nav>
 
 <!--主体部分-->
-<div class="container-fluid bg-light">
+<div class="container-fluid">
 
   <!--放置CPU Line Chart的行-->
   <div class="row">
@@ -76,14 +76,11 @@
 
                 // 声明有关CPU数据的全局变量
                 var cpu_data = {{ data.cpu_data|safe }};
-                var cpu_date = {{ data.cpu_date|safe }};
+                var cpu_date = {{ data.date|safe }};
 
                 // 指定图表的配置项和数据
                 var cpu_line_chart_option = {
                     tooltip: {},
-                    legend: {
-                        data:['使用率']
-                    },
                     xAxis: {
                         data: cpu_date
                     },
@@ -91,7 +88,7 @@
                     series: [{
                         name: '使用率',
                         type: 'line',
-                        data: cpu_data
+                        data: cpu_data,
                     }],
                     color:['#c728a2']
                 };
@@ -104,17 +101,17 @@
   </div>
 
   <!--放置四个实时显示数据的框的行-->
-  <div class="row bg-white">
+  <div class="row bg-light">
 
       <!--左1 CPU Pie Chart-->
-      <div class="col-sm-3 bg-white">
+      <div class="col-sm-3">
 
           <!--声明一个新卡片-->
           <div class="card card-chart">
 
               <!--卡片的头部-->
               <div class="card-header bg-white">
-                <h4 class="text-center"><small>CPU</small></h4>
+                <h6 class="text-center">CPU</h6>
               </div>
 
               <!--卡片的主体-->
@@ -135,7 +132,7 @@
                                     trigger: 'item',
                                     formatter: '{a} <br/>{b}: {c} ({d}%)'
                                     },
-                                    color:['green', 'white'],
+                                    color:['#fc6969', 'white'],
                                     series: [
                                         {
                                             name: 'CPU',
@@ -187,7 +184,7 @@
 
               <!--卡片的头部-->
               <div class="card-header bg-white">
-                <h4 class="text-center"><small>Memory</small></h4>
+                <h6 class="text-center">Memory</h6>
               </div>
 
               <!--卡片的主体-->
@@ -208,7 +205,7 @@
                                     trigger: 'item',
                                     formatter: '{a} <br/>{b}: {c} ({d}%)'
                                     },
-                                    color:['green', 'white'],
+                                    color:['#c430d4', 'white'],
                                     series: [
                                         {
                                             name: 'Memory',
@@ -260,7 +257,7 @@
 
               <!--卡片的头部-->
               <div class="card-header bg-white">
-                <h4 class="text-center"><small>Disk</small></h4>
+                <h6 class="text-center">Disk</h6>
               </div>
 
               <!--卡片的主体-->
@@ -281,7 +278,7 @@
                                     trigger: 'item',
                                     formatter: '{a} <br/>{b}: {c} ({d}%)'
                                     },
-                                    color:['green', 'white'],
+                                    color:['#18cdc7', 'white'],
                                     series: [
                                         {
                                             name: 'Disk',
@@ -333,7 +330,7 @@
 
               <!--卡片的头部-->
               <div class="card-header bg-white">
-                <h4 class="text-center"><small>Network</small></h4>
+                <h6 class="text-center">Network</h6>
               </div>
 
               <!--卡片的主体-->
@@ -354,7 +351,7 @@
                                     trigger: 'item',
                                     formatter: '{a} <br/>{b}: {c} ({d}%)'
                                     },
-                                    color:['green', 'white'],
+                                    color:['#f23359', 'white'],
                                     series: [
                                         {
                                             name: 'Network',
@@ -401,31 +398,151 @@
   </div>
 
   <!--放置三张Line Chart的行-->
-  <div class="row bg-white">
+  <div class="row bg-light">
 
       <!--左 Memory Line Chart-->
-      <div class="col-sm-4 bg-white">
+      <div class="col-sm-4">
           <!--声明一个新卡片-->
           <div class="card card-chart">
 
               <!--卡片的头部-->
               <div class="card-header bg-white">
-                  <h6 class="card-title">Memory Utility Rate</h6>
+                  <h6 class="card-title text-center">Memory Utility Rate</h6>
               </div>
 
               <!--卡片的主体-->
               <div class="card-body bg-white">
 
+                <!--Memory的表-->
+                <div id="memory_dashboard" style="width: 100%;height:300px;"></div>
+
+                <!--初始化memoryCharts的代码-->
+                <script type="text/javascript">
+                    // 初始化memoryCharts实例
+                    var memoryChart = echarts.init(document.getElementById('memory_dashboard'),'cyj-line_chart');
+
+                    // 声明有关Memory数据的全局变量
+                    var memory_data = {{ data.memory_data|safe }};
+                    var memory_date = {{ data.date|safe }};
+
+                    // 指定图表的配置项和数据
+                    var memory_line_chart_option = {
+                        tooltip: {},
+                        xAxis: {
+                            boundaryGap: false,
+                            data: memory_date
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '使用率',
+                            type: 'line',
+                            data: memory_data,
+                            areaStyle:{
+                            }
+                        }],
+                        color:['#c728a2']
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    memoryChart.setOption(memory_line_chart_option);
+                </script>
               </div>
 
           </div>
       </div>
 
       <!--中 Disk Line Chart-->
-      <div class="col-sm-4 bg-white"></div>
+      <div class="col-sm-4">
+          <!--声明一个新卡片-->
+          <div class="card card-chart">
+
+              <!--卡片的头部-->
+              <div class="card-header bg-white">
+                  <h6 class="card-title text-center">Disk Utility Rate</h6>
+              </div>
+
+              <!--卡片的主体-->
+              <div class="card-body bg-white">
+
+                <!--Disk的表-->
+                <div id="disk_dashboard" style="width: 100%;height:300px;"></div>
+
+                <!--初始化diskCharts的代码-->
+                <script type="text/javascript">
+                    // 初始化diskCharts实例
+                    var diskChart = echarts.init(document.getElementById('disk_dashboard'),'cyj-line_chart');
+
+                    // 声明有关CPU数据的全局变量
+                    var disk_data = {{ data.disk_data|safe }};
+                    var disk_date = {{ data.date|safe }};
+
+                    // 指定图表的配置项和数据
+                    var disk_line_chart_option = {
+                        tooltip: {},
+                        xAxis: {
+                            data: disk_date
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '使用率',
+                            type: 'line',
+                            data: disk_data
+                        }],
+                        color:['#c728a2']
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    diskChart.setOption(disk_line_chart_option);
+                </script>
+              </div>
+
+          </div>
+      </div>
 
       <!--右 Network Line Chart-->
-      <div class="col-sm-4 bg-white"></div>
+      <div class="col-sm-4">
+          <!--声明一个新卡片-->
+          <div class="card card-chart">
+
+              <!--卡片的头部-->
+              <div class="card-header bg-white">
+                  <h6 class="card-title text-center">Network</h6>
+              </div>
+
+              <!--卡片的主体-->
+              <div class="card-body bg-white">
+
+                <!--Network的表-->
+                <div id="network_dashboard" style="width: 100%;height:300px;"></div>
+
+                <!--初始化diskCharts的代码-->
+                <script type="text/javascript">
+                    // 初始化diskCharts实例
+                    var networkChart = echarts.init(document.getElementById('network_dashboard'),'cyj-line_chart');
+
+                    // 声明有关CPU数据的全局变量
+                    var network_data = {{ data.network_data|safe }};
+                    var network_date = {{ data.date|safe }};
+
+                    // 指定图表的配置项和数据
+                    var network_line_chart_option = {
+                        tooltip: {},
+                        xAxis: {
+                            data: network_date
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '上传+下载(MB)',
+                            type: 'line',
+                            data: network_data
+                        }],
+                        color:['#c728a2']
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    networkChart.setOption(network_line_chart_option);
+                </script>
+              </div>
+
+          </div>
+      </div>
   </div>
 </div>
 </body>
@@ -464,8 +581,19 @@
             success:function(json)
                 {
                     server_info = eval(json);
+
                     cpu_date.push(getCurrentTime());
                     cpu_data.push(server_info.cpu);
+
+                    memory_date.push(getCurrentTime());
+                    memory_data.push(server_info.memory);
+
+                    disk_date.push(getCurrentTime());
+                    disk_data.push(server_info.disk)
+
+                    network_date.push(getCurrentTime());
+                    network_data.push(server_info.network)
+
                     cpuChart.setOption({
                     xAxis: {
                         data: cpu_date
@@ -474,7 +602,37 @@
                         name:'',
                         data: cpu_data
                     }]
-                });
+                    });
+
+                    memoryChart.setOption({
+                    xAxis: {
+                        data: memory_date
+                    },
+                    series: [{
+                        name:'',
+                        data: memory_data
+                    }]
+                    });
+
+                    diskChart.setOption({
+                    xAxis: {
+                        data: disk_date
+                    },
+                    series: [{
+                        name:'',
+                        data: disk_data
+                    }]
+                    });
+
+                    networkChart.setOption({
+                    xAxis: {
+                        data: network_date
+                    },
+                    series: [{
+                        name:'',
+                        data: network_data
+                    }]
+                    });
                 }
         });
     }, 60000);
@@ -530,7 +688,7 @@
                         series: [{
                             data: [
                                 {value: network_real_time_data, name: '每秒上传+下载的总量'},
-                                {value: 3 - network_real_time_data, name: '空'},
+                                {value: 2 - network_real_time_data, name: '空'},
                             ]
                         }]
                     });
