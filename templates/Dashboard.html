@@ -89,6 +89,23 @@
                         name: '使用率',
                         type: 'line',
                         data: cpu_data,
+                        areaStyle: {
+                        normal:{
+                        color: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [{
+                                offset: 0, color: '#e5bae2' // 0% 处的颜色
+                            }, {
+                                offset: 1, color: 'white' // 100% 处的颜色
+                            }],
+                            global: false // 缺省为 false
+                        }
+                        }
+                    }
                     }],
                     color:['#c728a2']
                 };
@@ -132,7 +149,7 @@
                                     trigger: 'item',
                                     formatter: '{a} <br/>{b}: {c} ({d}%)'
                                     },
-                                    color:['#fc6969', 'white'],
+                                    color:['#c430d4', 'white'],
                                     series: [
                                         {
                                             name: 'CPU',
@@ -205,7 +222,7 @@
                                     trigger: 'item',
                                     formatter: '{a} <br/>{b}: {c} ({d}%)'
                                     },
-                                    color:['#c430d4', 'white'],
+                                    color:['#fc6969', 'white'],
                                     series: [
                                         {
                                             name: 'Memory',
@@ -437,10 +454,25 @@
                             name: '使用率',
                             type: 'line',
                             data: memory_data,
-                            areaStyle:{
+                            areaStyle: {
+                                normal:{
+                                color: {
+                                    type: 'linear',
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [{
+                                        offset: 0, color: '#54649c' // 0% 处的颜色
+                                    }, {
+                                        offset: 1, color: 'white' // 100% 处的颜色
+                                    }],
+                                    global: false // 缺省为 false
+                                }
+                                }
                             }
                         }],
-                        color:['#c728a2']
+                        color:['#273462']
                     };
                     // 使用刚指定的配置项和数据显示图表。
                     memoryChart.setOption(memory_line_chart_option);
@@ -485,9 +517,26 @@
                         series: [{
                             name: '使用率',
                             type: 'line',
-                            data: disk_data
+                            data: disk_data,
+                            areaStyle: {
+                                normal:{
+                                color: {
+                                    type: 'linear',
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [{
+                                        offset: 0, color: '#cce2fe' // 0% 处的颜色
+                                    }, {
+                                        offset: 1, color: 'white' // 100% 处的颜色
+                                    }],
+                                    global: false // 缺省为 false
+                                }
+                                }
+                            }
                         }],
-                        color:['#c728a2']
+                        color:['#1c77ed']
                     };
                     // 使用刚指定的配置项和数据显示图表。
                     diskChart.setOption(disk_line_chart_option);
@@ -532,9 +581,26 @@
                         series: [{
                             name: '上传+下载(MB)',
                             type: 'line',
-                            data: network_data
+                            data: network_data,
+                            areaStyle: {
+                                normal:{
+                                color: {
+                                    type: 'linear',
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [{
+                                        offset: 0, color: '#c4e8e0' // 0% 处的颜色
+                                    }, {
+                                        offset: 1, color: 'white' // 100% 处的颜色
+                                    }],
+                                    global: false // 缺省为 false
+                                }
+                                }
+                            }
                         }],
-                        color:['#c728a2']
+                        color:['#1bd0a3']
                     };
                     // 使用刚指定的配置项和数据显示图表。
                     networkChart.setOption(network_line_chart_option);
