@@ -22,5 +22,13 @@ class ServerInfo(models.Model):
     network_sent = models.FloatField(null=True)
 
 
-class Meta:
-    verbose_name = '服务器报警阈值'
+class PingList(models.Model):
+    server_ip = models.GenericIPAddressField(primary_key=True)
+    server_name = models.CharField(null=True, max_length=20)
+
+
+class PingResults(models.Model):
+    id = models.AutoField(primary_key=True)
+    server_ip = models.ForeignKey(PingList, on_delete=models.CASCADE)
+    ping_result = models.FloatField(null=True)
+    date = models.DateTimeField(auto_now=True, null=True)

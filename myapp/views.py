@@ -9,6 +9,7 @@ from .server_info_threshold import *
 from .email_alert import *
 from .clean_database import clean_database
 from .database_get_server_info import display_data_minutes
+from .get_ping_result import get_ping_results
 
 # 引入Django_Apscheduler库
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -78,7 +79,8 @@ def dashboard(request):
 
 # 测试Bootstrap
 def testBootstrap(request):
-    return render(request, 'test.html')
+    ping_results = get_ping_results()
+    return render(request, 'test.html', locals())
 
 
 # 后端定时获取服务器各项指标(每分钟)
