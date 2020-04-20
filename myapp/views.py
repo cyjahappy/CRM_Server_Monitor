@@ -9,11 +9,12 @@ from .server_info_threshold import *
 from .email_alert import *
 from .clean_database import clean_database
 from .database_get_server_info import display_data_minutes
-from .get_ping_result import get_ping_results
+from .get_ping_result import get_ping_results, ping_result_to_database
 
 # 引入Django_Apscheduler库
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+from django_apscheduler.models import DjangoJobExecution
 
 # 实例化调度器(定时获取获取系统各项指标)
 scheduler1 = BackgroundScheduler()
@@ -24,6 +25,11 @@ scheduler1.add_jobstore(DjangoJobStore(), 'default')
 scheduler2 = BackgroundScheduler()
 # 调度器(定时清理数据库过期数据)使用默认的DjangoJobStore()
 scheduler2.add_jobstore(DjangoJobStore(), 'default')
+
+# 实例化调度器(定时从PingList数据库中获取ip地址, ping之后将结果存储到PingResults数据库)
+scheduler3 = BackgroundScheduler()
+# 调度器(定时清理数据库过期数据)使用默认的DjangoJobStore()
+scheduler3.add_jobstore(DjangoJobStore(), 'default')
 
 
 # 定义前端用于实时获取系统各项指标的API
@@ -103,14 +109,28 @@ def scheduled_get_server_info():
 # 每天凌晨3:30的时候自动清除数据库中2天以前当天的所有数据
 @register_job(scheduler2, 'cron', id='scheduled_clean_database', hour=3, minute=30)
 def scheduled_clean_database():
+    # 清理ServerInfo数据库的内容
     clean_database()
+
+    # 清理 job executions older than 7 days
+    DjangoJobExecution.objects.delete_old_job_executions(604_800)
+    return
+
+
+# 后端定时获取ping各个服务器的结果并存入数据库(每分钟)
+@register_job(scheduler3, 'interval', id='scheduled_get_ping_result', minutes=1)
+def scheduled_get_ping_result():
+    ping_result_to_database()
+    return
 
 
 # 注册定时任务并开始
 register_events(scheduler1)
 register_events(scheduler2)
+register_events(scheduler3)
 scheduler1.start()
 scheduler2.start()
+scheduler3.start()
 
 
 @staff_member_required
