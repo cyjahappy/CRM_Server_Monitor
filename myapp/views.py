@@ -69,7 +69,6 @@ def modify_threshold_api(request):
         print(e)
     return HttpResponse('')
 
-
 # Dashboard的页面
 def dashboard(request):
     server_info_minutes = display_data_minutes()

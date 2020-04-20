@@ -621,6 +621,73 @@
     var server_info
     var real_time_server_info
 
+
+//用于补上图表上的断层(图表默认获取到前一分钟的数据,这个异步用于获取本分钟的数据)
+$.ajax({
+            type:'GET',
+            url:'/admin/server-info-api',
+            dataType:'json',
+            success:function(json)
+                {
+                    server_info = eval(json);
+
+                    cpu_date.push(getCurrentTime());
+                    cpu_data.push(server_info.cpu);
+
+                    memory_date.push(getCurrentTime());
+                    memory_data.push(server_info.memory);
+
+                    disk_date.push(getCurrentTime());
+                    disk_data.push(server_info.disk)
+
+                    network_date.push(getCurrentTime());
+                    network_data.push(server_info.network)
+
+                    cpuChart.setOption({
+                    xAxis: {
+                        data: cpu_date
+                    },
+                    series: [{
+                        name:'',
+                        data: cpu_data
+                    }]
+                    });
+
+                    memoryChart.setOption({
+                    xAxis: {
+                        data: memory_date
+                    },
+                    series: [{
+                        name:'',
+                        data: memory_data
+                    }]
+                    });
+
+                    diskChart.setOption({
+                    xAxis: {
+                        data: disk_date
+                    },
+                    series: [{
+                        name:'',
+                        data: disk_data
+                    }]
+                    });
+
+                    networkChart.setOption({
+                    xAxis: {
+                        data: network_date
+                    },
+                    series: [{
+                        name:'',
+                        data: network_data
+                    }]
+                    });
+                }
+        });
+
+
+
+
 //返回格式化的时间(HH:MM)
         function getCurrentTime(){
 		var dtCur = new Date();
