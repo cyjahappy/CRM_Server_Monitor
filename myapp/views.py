@@ -9,6 +9,7 @@ from .server_info_threshold import *
 from .email_alert import *
 from .clean_database import clean_database
 from .database_get_server_info import display_data_minutes
+from .database_get_ping_result import display_ping_result_minutes
 from .get_ping_result import get_ping_results, ping_result_to_database
 
 # 引入Django_Apscheduler库
@@ -69,15 +70,22 @@ def modify_threshold_api(request):
         print(e)
     return HttpResponse('')
 
+
 # Dashboard的页面
 def dashboard(request):
     server_info_minutes = display_data_minutes()
+    ping_results_minutes = display_ping_result_minutes()
     data = {
         'cpu_data': server_info_minutes['cpu'],
         'memory_data': server_info_minutes['memory'],
         'disk_data': server_info_minutes['disk'],
         'network_data': server_info_minutes['network'],
         'date': server_info_minutes['date']
+    }
+    ping_data = {
+        'server_ip_id': ping_results_minutes['server_ip_id'],
+        'ping_result': ping_results_minutes['ping_result'],
+        'date': ping_results_minutes['date']
     }
     return render(request, 'Dashboard.html', locals())
 

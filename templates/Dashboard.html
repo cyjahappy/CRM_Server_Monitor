@@ -610,6 +610,126 @@
           </div>
       </div>
   </div>
+
+    <div class="row bg-light">
+        <div class="col-sm-6">
+            <div class="card card-chart">
+                <div class="card-header bg-white">
+                    <h6 class="card-title text-center">Ping Result</h6>
+                </div>
+                <div class="card-body bg-white">
+
+                <div id="ping_result_dashboard" style="width: 100%;height:300px;"></div>
+                    <script type="text/javascript">
+                    // 初始化diskCharts实例
+                    var pingChart = echarts.init(document.getElementById('ping_result_dashboard'),'cyj-line_chart');
+
+                    // 声明有关CPU数据的全局变量
+                    var ping_data = {{ ping_data.ping_result|safe }};
+                    var ping_date = {{ ping_data.date|safe }};
+
+                    // 指定图表的配置项和数据
+                    var ping_line_chart_option = {
+                        tooltip: {},
+                        xAxis: {
+                            data: ping_date
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: 'seconds',
+                            type: 'line',
+                            data: ping_data,
+                            areaStyle: {
+                                normal:{
+                                color: {
+                                    type: 'linear',
+                                    x: 0,
+                                    y: 0,
+                                    x2: 0,
+                                    y2: 1,
+                                    colorStops: [{
+                                        offset: 0, color: '#f57175' // 0% 处的颜色
+                                    }, {
+                                        offset: 1, color: 'white' // 100% 处的颜色
+                                    }],
+                                    global: false // 缺省为 false
+                                }
+                                }
+                            }
+                        }],
+                        color:['#f95056']
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    pingChart.setOption(ping_line_chart_option);
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card card-chart">
+
+                <div class="card-body bg-white">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Server Name</th>
+                              <th scope="col">IP</th>
+                              <th scope="col">Ping Result</th>
+                              <th scope="col">Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td id="row1column1">Mark</td>
+                              <td id="row1column2">Mark</td>
+                              <td id="row1column3">Otto</td>
+                              <td id="row1column4">@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td id="row2column1>Jacob</td>
+                              <td id="row2column2>Mark</td>
+                              <td id="row2column3>Thornton</td>
+                              <td id="row2column4>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td id="row3column1>Larry the Bird</td>
+                              <td id="row3column2>Mark</td>
+                              <td id="row3column3>Thornton</td>
+                              <td id="row3column4>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">4</th>
+                              <td id="row4column1>Larry the Bird</td>
+                              <td id="row4column2>Mark</td>
+                              <td id="row4column3>Thornton</td>
+                              <td id="row4column4>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">5</th>
+                              <td id="row5column1>Larry the Bird</td>
+                              <td id="row5column2>Mark</td>
+                              <td id="row5column3>Thornton</td>
+                              <td id="row5column4>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">6</th>
+                              <td id="row6column1>Larry the Bird</td>
+                              <td id="row6column2>Mark</td>
+                              <td id="row6column3>Thornton</td>
+                              <td id="row6column4>@twitter</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
@@ -685,9 +805,6 @@ $.ajax({
                 }
         });
 
-
-
-
 //返回格式化的时间(HH:MM)
         function getCurrentTime(){
 		var dtCur = new Date();
@@ -696,6 +813,7 @@ $.ajax({
 		timeCur = (hCur < 10 ? "0" + hCur : hCur) + ":" + (mCur < 10 ? "0" + mCur : mCur);
 		return timeCur;
 	}
+
 //返回格式化的时间(HH:MM:SS)
         function getCurrentTime_seconds(){
 		var dtCur = new Date();
@@ -705,6 +823,7 @@ $.ajax({
 		timeCur = (hCur < 10 ? "0" + hCur : hCur) + ":" + (mCur < 10 ? "0" + mCur : mCur) + ":" + (sCur < 10 ? "0" + sCur : sCur);
 		return timeCur;
 	}
+
 // 定时每分钟异步获取系统信息
         timeTicket = setInterval(function () {
         $.ajax({
@@ -769,6 +888,7 @@ $.ajax({
                 }
         });
     }, 60000);
+
 // 定时每秒异步获取系统信息
         timeTicket = setInterval(function () {
         $.ajax({
