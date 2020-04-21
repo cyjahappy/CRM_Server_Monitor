@@ -1,4 +1,4 @@
-from .models import *
+from .models import ServerInfoThreshold
 
 # 从数据库中获取CPU使用率阈值
 cpu_threshold = ServerInfoThreshold.objects.get(id=1).cpu_threshold
