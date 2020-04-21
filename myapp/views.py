@@ -10,7 +10,7 @@ from .email_alert import *
 from .clean_database import clean_database
 from .database_get_server_info import display_data_minutes
 from .database_get_ping_result import display_ping_result_minutes
-from .get_ping_result import get_ping_results, ping_result_to_database
+from .get_ping_result import get_ping_result, ping_result_to_database
 
 # 引入Django_Apscheduler库
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -42,12 +42,6 @@ def server_info_api(request):
     return HttpResponse(json.dumps(server_info))
 
 
-# 定义前端用于以分钟为单位从数据库获取系统各项指标的API
-def server_info_minutes_api(request):
-    server_info_minutes = display_data_minutes()
-    return HttpResponse(json.dumps(server_info_minutes))
-
-
 # 定义前端用于实时获取系统各项指标阈值的API
 def server_info_threshold_api(request):
     try:
@@ -56,6 +50,15 @@ def server_info_threshold_api(request):
         print(e)
     else:
         return HttpResponse(json.dumps(server_info_threshold))
+
+
+# 定义前端用于实时获取指定IP的Ping结果的API
+def ping_result_api(request):
+    try:
+        ping_result = get_ping_result(request.POST.get('server_ip'))
+    except Exception as e:
+        print(e)
+    return HttpResponse(json.dumps(ping_result))
 
 
 # 定义前端用于修改系统各项指标报警阈值的API
@@ -92,7 +95,6 @@ def dashboard(request):
 
 # 测试Bootstrap
 def testBootstrap(request):
-    ping_results = get_ping_results()
     return render(request, 'test.html', locals())
 
 

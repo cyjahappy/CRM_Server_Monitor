@@ -7,23 +7,101 @@
     <link rel="stylesheet" href="/static/css/bootstrap.css">
     <link rel="stylesheet" href="/static/css/bootstrap-grid.css">
     <link rel="stylesheet" href="/static/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-table.css">
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/echarts.min.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/bootstrap.bundle.js"></script>
+    <script src="/static/js/bootstrap-table.js"></script>
 </head>
 <body>
-<div id="d"></div>
-<div id="dd"></div>
-<div id="ddd"></div>
-<script>
-    var server_name_list = {{ ping_results.server_name|safe }}
-    var server_ip_list = {{ping_results.server_ip|safe}}
-    var ping_result_list = {{ ping_results.ping_result|safe}}
-    document.getElementById('d').innerHTML = server_name_list[0]
-    document.getElementById('dd').innerHTML = server_ip_list[0]
-    document.getElementById('ddd').innerHTML = ping_result_list[0]
-</script>
-
+<div class="row">
+    <div class="col-sm-6">
+        <table data-toggle="table" id="table"></table>
+    </div>
+    <div class="col-sm-6">
+        <table data-toggle="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Threshold</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CPU</td>
+          <td>
+              <div class="progress">
+                  <div id="cpu_threshold" class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Memory</td>
+          <td>
+              <div class="progress">
+                  <div id="memory_threshold" class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90%</div>
+              </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Disk</td>
+          <td>
+              <div class="progress">
+                  <div id="disk_threshold" class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+</div>
 </body>
+<script>
+    //调用api获取服务器各项指标阈值,并显示为表格中的进度条
+    $.ajax({
+    type:'GET',
+    url:'/admin/server-info-threshold-api',
+    dataType:'json',
+    success:function(json)
+        {
+             server_info_threshold = eval(json);
+             document.getElementById("cpu_threshold").innerHTML = server_info_threshold.cpu_threshold + '%';
+             document.getElementById("cpu_threshold").setAttribute("aria-valuenow", server_info_threshold.cpu_threshold);
+             document.getElementById("cpu_threshold").style.width = server_info_threshold.cpu_threshold + "%";
+             document.getElementById("memory_threshold").innerHTML = server_info_threshold.memory_threshold + '%';
+             document.getElementById("memory_threshold").setAttribute("aria-valuenow", server_info_threshold.memory_threshold);
+             document.getElementById("memory_threshold").style.width = server_info_threshold.memory_threshold + "%";
+             document.getElementById("disk_threshold").innerHTML = server_info_threshold.disk_threshold + '%';
+             document.getElementById("disk_threshold").setAttribute("aria-valuenow", server_info_threshold.disk_threshold);
+             document.getElementById("disk_threshold").style.width = server_info_threshold.disk_threshold + "%";
+        }
+    });
+
+
+
+
+
+
+
+    $('#table').bootstrapTable({
+  columns: [{
+    field: 'type',
+    title: '#'
+  }, {
+    field: 'threshold',
+    title: 'Threshold'
+  }],
+  data: [{
+    type: 'CPU Threshold',
+    threshold: '50',
+  }, {
+    type: 'Memory Threshold',
+    threshold: '50',
+  },{
+      type: 'Disk Threshold',
+      threshold: '90'
+  }]
+})
+</script>
 </html>

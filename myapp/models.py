@@ -12,6 +12,8 @@ class ServerInfoThreshold(models.Model):
     disk_threshold = models.FloatField(default=99.0)
 
 
+
+
 class ServerInfo(models.Model):
     date = models.DateTimeField(primary_key=True, auto_now=True)
     cpu = models.FloatField(null=True)
