@@ -709,6 +709,14 @@
                           </div>
                       </td>
                     </tr>
+                    <tr>
+                      <td>Bandwidth</td>
+                      <td>
+                          <div class="progress">
+                              <div id="bandwidth_threshold" class="progress-bar bg-dark" role="progressbar" style="width: 90%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                      </td>
+                    </tr>
                 </tbody>
             </table>
                 </div>
@@ -743,6 +751,10 @@
              document.getElementById("disk_threshold").innerHTML = server_info_threshold.disk_threshold + '%';
              document.getElementById("disk_threshold").setAttribute("aria-valuenow", server_info_threshold.disk_threshold);
              document.getElementById("disk_threshold").style.width = server_info_threshold.disk_threshold + "%";
+             document.getElementById("bandwidth_threshold").innerHTML = server_info_threshold.bandwidth_threshold + 'MB';
+             //带宽的进度条这ban获取的数值都有乘10
+             document.getElementById("bandwidth_threshold").setAttribute("aria-valuenow", server_info_threshold.bandwidth_threshold*10);
+             document.getElementById("bandwidth_threshold").style.width = server_info_threshold.bandwidth_threshold*10 + "%";
         }
     });
 
